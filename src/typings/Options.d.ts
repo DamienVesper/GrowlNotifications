@@ -3,7 +3,7 @@ interface Options {
     title?: string
     description?: string
 
-    position?: string
+    position?: `top-left` | `top-center` | `top-right` | `bottom-left` | `bottom-center` | `bottom-right`
     margin?: number
     offset?: {
         x?: number
