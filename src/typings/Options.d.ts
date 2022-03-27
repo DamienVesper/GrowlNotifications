@@ -1,7 +1,7 @@
 interface Options {
     type?: string
     title?: string
-    description?: string
+    description: string
 
     position?: `top-left` | `top-center` | `top-right` | `bottom-left` | `bottom-center` | `bottom-right`
     margin?: number
@@ -10,12 +10,12 @@ interface Options {
         y?: number
     }
 
-    width?: number | string
+    width?: number
     zIndex?: number
 
     image?: {
-        customImage: string
-        visible?: boolean
+        visible: boolean
+        customImage?: string
     }
 
     animationDuration?: number
@@ -32,14 +32,12 @@ interface Options {
 
     buttons?: {
         action?: {
-            action?: {
-                text: string
-                callback?: () => void
-            }
-            cancel?: {
-                text?: string
-                callback?: () => void
-            }
+            text: string
+            callback?: () => void
+        }
+        cancel?: {
+            text?: string
+            callback?: () => void
         }
     }
 
