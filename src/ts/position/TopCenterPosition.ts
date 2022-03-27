@@ -8,8 +8,7 @@ export class TopCenterPosition implements IPosition {
 
     calculate (): void {
         let offset: number = this.margin;
-        const notifications = TsDom.select(`.growl-notification.position-${TopCenterPosition.position}`)
-        ;
+        const notifications = TsDom.select(`.growl-notification.position-${TopCenterPosition.position}`);
 
         notifications.each((el: any) => {
             const element = TsDom.select(el);
