@@ -1,5 +1,5 @@
 {
-	"name": "growl-notification",
+	"name": "growl-notifications",
 	"version": "1.0.0",
 	"description": "",
 	"private": false,
@@ -9,8 +9,8 @@
 		"build-source": "webpack --mode=production --config webpack.prod-source.config.js",
 		"dev:lint": "eslint . --fix --ext .js"
 	},
-	"author": "ThemesAnytime",
-	"license": "ISC",
+	"author": "DamienVesper",
+	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^17.0.23",
 		"@types/webpack": "^5.28.0",
