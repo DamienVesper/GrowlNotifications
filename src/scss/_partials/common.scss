@@ -1,0 +1,212 @@
+@import "variables";
+
+/** BEGIN: growl notifications */
+.growl-notification {
+  position: fixed;
+  width: $growl-notification-width;
+  min-height: $growl-notification-min-height;
+  border-radius: $growl-notification-border-radius;
+  box-shadow: $growl-notification-box-shadow;
+  background: $growl-notification-bg-color;
+  z-index: $growl-notification-zindex;
+
+  &:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    content: '';
+    width: 4px;
+    border-radius: $growl-notification-border-radius 0 0 $growl-notification-border-radius;
+  }
+
+  &__progress {
+    display: none;
+    height: 4px;
+    border-radius: $growl-notification-border-radius $growl-notification-border-radius 0 0;
+
+    &.is-visible {
+      display: flex;
+    }
+
+    &-bar {
+      border-radius: $growl-notification-border-radius $growl-notification-border-radius 0 0;
+      width: 0;
+      height: 4px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    padding: 13px 25px;
+    min-height: 56px;
+  }
+
+  &__buttons {
+    display: none;
+    border-top: $growl-notification-button-border-width solid $growl-notification-button-border-color;
+
+    &.is-visible {
+      display: flex;
+    }
+  }
+
+  &__button {
+    display: flex;
+    flex-grow: 1;
+    min-width: 50%;
+    text-align: center;
+    min-height: 39px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: $growl-notification-button-ok-color;
+    font-weight: $growl-notification-font-weight-bold;
+
+    &:hover {
+      text-decoration: none;
+      color: $growl-notification-button-ok-color;
+      background: $growl-notification-button-hover-bg-color;
+    }
+
+    &--cancel {
+      color: $growl-notification-button-cancel-color;
+
+      &:hover {
+        color: $growl-notification-button-cancel-color;
+      }
+    }
+  }
+
+  &__button + &__button {
+    border-left: $growl-notification-button-border-width solid $growl-notification-button-border-color;
+  }
+
+  &__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 12px;
+    line-height: 12px;
+    transition: color .1s;
+    cursor: pointer;
+
+    &-icon {
+      background-repeat: no-repeat;
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      background-size: 100%;
+      background-image: url($growl-notification-close-icon);
+      opacity: $growl-notification-close-opacity;
+
+      &:hover {
+        opacity: $growl-notification-close-hover-opacity;
+      }
+    }
+  }
+
+  &--closed {
+    z-index: 1055;
+  }
+
+  &__title {
+    font-size: 18px;
+    color: $growl-notification-title-color;
+    margin-top: -2px;
+    font-weight: $growl-notification-font-weight-bold;
+  }
+
+  &__desc {
+    color: $growl-notification-desc-color;
+  }
+
+  &__title + &__desc {
+    color: $growl-notification-desc-after-title-color;
+  }
+
+  &--close-on-click {
+    cursor: pointer;
+  }
+
+  &--default {
+    &:before {
+      background: $growl-notification-color-default;
+    }
+  }
+
+  &--default &__progress {
+    background: rgba($growl-notification-color-default, $growl-notification-progress-opacity);
+  }
+
+  &--default &__progress-bar {
+    background: rgba($growl-notification-color-default, $growl-notification-progress-bar-opacity);
+  }
+
+  &--info {
+    &:before {
+      background: $growl-notification-color-info;
+    }
+  }
+
+  &--info &__progress {
+    background: rgba($growl-notification-color-info, $growl-notification-progress-opacity);
+  }
+
+  &--info &__progress-bar {
+    background: rgba($growl-notification-color-info, $growl-notification-progress-bar-opacity);
+  }
+
+  &--success {
+    &:before {
+      background: $growl-notification-color-success;
+    }
+  }
+
+  &--success &__progress {
+    background: rgba($growl-notification-color-success, $growl-notification-progress-opacity);
+  }
+
+  &--success &__progress-bar {
+    background: rgba($growl-notification-color-success, $growl-notification-progress-bar-opacity);
+  }
+
+  &--warning {
+    &:before {
+      background: $growl-notification-color-warning;
+    }
+  }
+
+  &--warning &__progress {
+    background: rgba($growl-notification-color-warning, $growl-notification-progress-opacity);
+  }
+
+  &--warning &__progress-bar {
+    background: rgba($growl-notification-color-warning, $growl-notification-progress-bar-opacity);
+  }
+
+  &--error,
+  &--danger {
+    &:before {
+      background: $growl-notification-color-danger;
+    }
+  }
+
+  &--error &__progress,
+  &--danger &__progress {
+    background: rgba($growl-notification-color-danger, $growl-notification-progress-opacity);
+  }
+
+  &--error &__progress-bar,
+  &--danger &__progress-bar {
+    background: rgba($growl-notification-color-danger, $growl-notification-progress-bar-opacity);
+  }
+
+  @import "images";
+  @import "positions";
+  @import "animations";
+}
+
+@import "animations-keyframes";
+/** END: growl notifications */
