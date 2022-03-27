@@ -10,6 +10,7 @@ specifiers:
   clean-webpack-plugin: ^4.0.0
   copy-webpack-plugin: ^10.2.4
   css-loader: ^6.7.1
+  css-minimizer-webpack-plugin: ^3.4.1
   deepmerge: ^4.2.2
   eslint: ^8.12.0
   eslint-config-standard-with-typescript: ^21.0.1
@@ -47,6 +48,7 @@ devDependencies:
   clean-webpack-plugin: 4.0.0_webpack@5.70.0
   copy-webpack-plugin: 10.2.4_webpack@5.70.0
   css-loader: 6.7.1_webpack@5.70.0
+  css-minimizer-webpack-plugin: 3.4.1_webpack@5.70.0
   eslint: 8.12.0
   eslint-config-standard-with-typescript: 21.0.1_c45b63ab5e194a750cdabaa80290b7ec
   eslint-plugin-import: 2.25.4_eslint@8.12.0
@@ -1487,6 +1489,34 @@ packages:
       postcss-modules-values: 4.0.0_postcss@8.4.12
       postcss-value-parser: 4.2.0
       semver: 7.3.5
+      webpack: 5.70.0_webpack-cli@4.9.2
+    dev: true
+
+  /css-minimizer-webpack-plugin/3.4.1_webpack@5.70.0:
+    resolution: {integrity: sha512-1u6D71zeIfgngN2XNRJefc/hY7Ybsxd74Jm4qngIXyUEk7fss3VUzuHxLAq/R8NAba4QU9OUSaMZlbpRc7bM4Q==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      '@parcel/css': '*'
+      clean-css: '*'
+      csso: '*'
+      esbuild: '*'
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      '@parcel/css':
+        optional: true
+      clean-css:
+        optional: true
+      csso:
+        optional: true
+      esbuild:
+        optional: true
+    dependencies:
+      cssnano: 5.1.5_postcss@8.4.12
+      jest-worker: 27.5.1
+      postcss: 8.4.12
+      schema-utils: 4.0.0
+      serialize-javascript: 6.0.0
+      source-map: 0.6.1
       webpack: 5.70.0_webpack-cli@4.9.2
     dev: true
 
