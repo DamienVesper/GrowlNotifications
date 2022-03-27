@@ -23,7 +23,7 @@ const config = merge(common, {
     },
 
     output: {
-        path: path.resolve(__dirname, `../dist`),
+        path: path.resolve(__dirname, `../dist/libs`),
         filename: `static/js/[name].[contenthash:8].js`,
         chunkFilename: `static/js/[name].[contenthash:8].chunk.js`
     },

@@ -28,14 +28,12 @@ const config = merge(common, {
 
     plugins: [
         new HTMLWebpackPlugin({
-            inject: true,
-            template: path.resolve(__dirname, `../public/index.html`),
-            favicon: `./public/assets/img/logos/favicon.png`
+            inject: true
         })
     ],
 
     output: {
-        path: path.resolve(__dirname, `../dist`),
+        path: path.resolve(__dirname, `../test`),
         filename: `bundle.min.js`
     },
 
@@ -44,7 +42,7 @@ const config = merge(common, {
             publicPath: `http://localhost:3000`
         },
         static: {
-            directory: path.resolve(__dirname, `../public`)
+            directory: path.resolve(__dirname, `../src`)
         },
         historyApiFallback: true,
         port: 3000,
