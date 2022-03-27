@@ -1,8 +1,8 @@
 import TsDom from "../model/tsdom";
 
 export interface IPosition {
-  readonly position?: string;
+    readonly position?: string
 
-  calculate: () => void;
-  instances: () => Array<TsDom>;
+    calculate: () => void
+    instances: () => TsDom[]
 }

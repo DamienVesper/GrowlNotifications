@@ -1,7 +1,7 @@
 declare let window: Window;
 
-Number.isInteger = Number.isInteger || function(value) {
-    return typeof value === "number" &&
+Number.isInteger = Number.isInteger || function (value) {
+    return typeof value === `number` &&
       isFinite(value) &&
       Math.floor(value) === value;
 };
@@ -15,7 +15,7 @@ export default class TsDom {
      *
      * @type {string}
      */
-    readonly pseudoSelector: string = '';
+    readonly pseudoSelector: string = ``;
 
     private callbacks: any = {};
 
@@ -25,17 +25,17 @@ export default class TsDom {
      * @param {any | string} selector
      * @param {HTMLElement | Document} context
      */
-    constructor(selector: any|string, context?: HTMLElement|Document) {
-        if (!context) {
+    constructor (selector: any|string, context?: HTMLElement|Document) {
+        if (context == null) {
             context = document;
         }
 
-        if (typeof selector === 'string') {
-            if (selector[0] === '<' && selector[selector.length - 1] === ">") {
+        if (typeof selector === `string`) {
+            if (selector[0] === `<` && selector[selector.length - 1] === `>`) {
                 this.nodes = [TsDom.createNode(selector)];
             } else {
                 if (selector.search(/(:before|:after)$/gi) !== -1) {
-                    let found = selector.match(/(:before|:after)$/gi);
+                    const found = selector.match(/(:before|:after)$/gi);
                     selector = selector.split(found[0])[0];
                     this.pseudoSelector = found[0];
                 }
@@ -50,15 +50,15 @@ export default class TsDom {
         }
     }
 
-    public static select(selector: any, context?: HTMLElement|Document): TsDom {
+    public static select (selector: any, context?: HTMLElement|Document): TsDom {
         return new TsDom(selector, context);
     }
 
-    public static create(nodeName: string): TsDom {
+    public static create (nodeName: string): TsDom {
         return new TsDom(TsDom.createNode(nodeName));
     }
 
-    attr(attrName: string, attrValue?: any) {
+    attr (attrName: string, attrValue?: any) {
         if (attrValue != undefined) {
             this.each(this.nodes, (node: HTMLElement) => {
                 node.setAttribute(attrName, attrValue);
@@ -75,7 +75,7 @@ export default class TsDom {
      *
      * @param {HTMLElement} content
      */
-    append(content: HTMLElement|TsDom): TsDom {
+    append (content: HTMLElement|TsDom): TsDom {
         let element: HTMLElement;
 
         if (content instanceof TsDom) {
@@ -91,7 +91,7 @@ export default class TsDom {
         return this;
     }
 
-    parent(): TsDom {
+    parent (): TsDom {
         return new TsDom(this.getLastNode().parentNode);
     }
 
@@ -102,7 +102,7 @@ export default class TsDom {
      * @param {Function} callback
      * @returns {TsDom}
      */
-    each(nodes?: any, callback?: Function): TsDom {
+    each (nodes?: any, callback?: Function): TsDom {
         if (nodes instanceof Function) {
             callback = nodes;
             nodes = this.nodes;
@@ -115,7 +115,7 @@ export default class TsDom {
         return this;
     }
 
-    hasClass(className: string): boolean {
+    hasClass (className: string): boolean {
         return this.getLastNode().classList.contains(className);
     }
 
@@ -125,12 +125,12 @@ export default class TsDom {
      * @param {string} className
      * @returns {TsDom}
      */
-    addClass(className: string): TsDom {
+    addClass (className: string): TsDom {
         if (className) {
-            let cssClasses = className.split(' ');
+            const cssClasses = className.split(` `);
 
             this.each(this.nodes, (node: HTMLElement) => {
-                for (let classIndex in cssClasses) {
+                for (const classIndex in cssClasses) {
                     node.classList.add(cssClasses[classIndex]);
                 }
             });
@@ -145,11 +145,11 @@ export default class TsDom {
      * @param {string} className
      * @returns {TsDom}
      */
-    removeClass(className: string): TsDom {
-        let cssClasses = className.split(' ');
+    removeClass (className: string): TsDom {
+        const cssClasses = className.split(` `);
 
-        this.each(this.nodes,(node: HTMLElement) => {
-            for (let classIndex in cssClasses) {
+        this.each(this.nodes, (node: HTMLElement) => {
+            for (const classIndex in cssClasses) {
                 node.classList.remove(cssClasses[classIndex]);
             }
         });
@@ -157,24 +157,24 @@ export default class TsDom {
         return this;
     }
 
-    find(selector: any):TsDom {
+    find (selector: any): TsDom {
         return new TsDom(selector, this.getLastNode());
     }
 
-    trigger(eventName: string, detail?: object): TsDom {
-        let event = new CustomEvent(eventName, {
+    trigger (eventName: string, detail?: object): TsDom {
+        const event = new CustomEvent(eventName, {
             detail: detail
         });
 
-        this.each(this.nodes,(node: HTMLElement) => {
+        this.each(this.nodes, (node: HTMLElement) => {
             node.dispatchEvent(event);
         });
 
         return this;
     }
 
-    text(text: string) {
-        this.each(this.nodes,(node: HTMLElement) => {
+    text (text: string) {
+        this.each(this.nodes, (node: HTMLElement) => {
             node.innerText = text;
         });
 
@@ -188,38 +188,38 @@ export default class TsDom {
      * @param value
      * @returns {any}
      */
-    css(styleName: any, value?: any): any|TsDom {
-        if (typeof value == 'undefined') {
-            let node = this.getLastNode();
+    css (styleName: any, value?: any): any|TsDom {
+        if (typeof value === `undefined`) {
+            const node = this.getLastNode();
             let result = null;
 
             styleName = TsDom.convertToJsProperty(styleName);
 
-            if ((typeof node.getBoundingClientRect === "function") && !this.pseudoSelector) {
+            if ((typeof node.getBoundingClientRect === `function`) && !this.pseudoSelector) {
                 result = node.getBoundingClientRect()[styleName];
             }
 
             if (!result) {
-                let value = getComputedStyle(node, this.pseudoSelector)[styleName];
+                const value = getComputedStyle(node, this.pseudoSelector)[styleName];
 
-                if (value.search('px')) {
+                if (value.search(`px`)) {
                     result = parseInt(value, 10);
                 }
             }
 
             if (isNaN(result)) {
-                throw 'Undefined css property: ' + styleName;
+                throw `Undefined css property: ${styleName}`;
             }
 
             return result;
         } else {
             if (Number.isInteger(value)) {
-                value = value + 'px';
+                value = `${value}px`;
             }
 
             if (this.nodes.length > 1) {
                 this.each(this.nodes, (node: HTMLElement) => {
-                    node.style[styleName] = value
+                    node.style[styleName] = value;
                 });
             } else {
                 this.nodes[0].style[styleName] = value;
@@ -236,9 +236,9 @@ export default class TsDom {
      * @param {Function} callback
      * @returns {TsDom}
      */
-    on(eventName: string, callback: Function): TsDom {
+    on (eventName: string, callback: Function): TsDom {
         this.each(this.nodes, (node: HTMLElement) => {
-            let callbackFn = (e: any) => {
+            const callbackFn = (e: any) => {
                 callback.call(node, e);
             };
             this.callbacks[eventName] = callbackFn;
@@ -248,8 +248,8 @@ export default class TsDom {
         return this;
     }
 
-    off(eventName: string): TsDom {
-        let callbackFn = this.callbacks[eventName];
+    off (eventName: string): TsDom {
+        const callbackFn = this.callbacks[eventName];
         this.each(this.nodes, (node: HTMLElement) => {
             node.removeEventListener(eventName, callbackFn, false);
         });
@@ -257,8 +257,8 @@ export default class TsDom {
         return this;
     }
 
-    val(value?: string|number) {
-        if (typeof value === 'undefined') {
+    val (value?: string|number) {
+        if (typeof value === `undefined`) {
             return this.getLastNode().value;
         }
 
@@ -275,56 +275,56 @@ export default class TsDom {
      * @param {string} tagName
      * @returns {boolean}
      */
-    is(tagName: string): boolean {
+    is (tagName: string): boolean {
         return this.getLastNode().tagName.toLowerCase() === tagName;
     }
 
-    get(index: number = 0) {
+    get (index = 0) {
         return this.nodes[index];
     }
 
-    length(): number {
+    length (): number {
         return this.nodes.length;
     }
 
-    hide(): TsDom {
+    hide (): TsDom {
         this.each(this.nodes, (node: HTMLElement) => {
-            TsDom.select(node).css('display', 'none');
+            TsDom.select(node).css(`display`, `none`);
         });
 
         return this;
     }
 
-    show(): TsDom {
+    show (): TsDom {
         this.each(this.nodes, (node: HTMLElement) => {
-            TsDom.select(node).css('display', '');
+            TsDom.select(node).css(`display`, ``);
         });
 
         return this;
     }
 
-    empty() {
+    empty () {
         this.each(this.nodes, (node: HTMLElement) => {
-            TsDom.select(node).get().innerHTML = '';
+            TsDom.select(node).get().innerHTML = ``;
         });
 
         return this;
     }
 
-    html(content?: string) {
+    html (content?: string) {
         this.each(this.nodes, (node: HTMLElement) => {
             node.innerHTML = content;
         });
     }
 
-    remove(): void {
+    remove (): void {
         this.each(this.nodes, (node: HTMLElement) => {
             node.remove();
         });
     }
 
-    insertBefore(data: any): TsDom {
-        let element = this.resolveElement(data);
+    insertBefore (data: any): TsDom {
+        const element = this.resolveElement(data);
 
         this.each(this.nodes, (node: HTMLElement) => {
             node.parentNode.insertBefore(element, element.previousSibling);
@@ -333,8 +333,8 @@ export default class TsDom {
         return this;
     }
 
-    insertAfter(contents: any): TsDom {
-        let element = this.resolveElement(contents);
+    insertAfter (contents: any): TsDom {
+        const element = this.resolveElement(contents);
 
         this.each(this.nodes, (node: HTMLElement) => {
             node.parentNode.insertBefore(element, node.nextSibling);
@@ -343,7 +343,7 @@ export default class TsDom {
         return this;
     }
 
-    protected resolveElement(contents: any): HTMLElement {
+    protected resolveElement (contents: any): HTMLElement {
         let element: any;
 
         if (TsDom.isHtml(contents)) {
@@ -357,17 +357,17 @@ export default class TsDom {
         return element;
     }
 
-    closest(selector: string): TsDom {
+    closest (selector: string): TsDom {
         return TsDom.select(this.getLastNode().closest(selector));
     }
 
-    data(dataName: string): string {
-        return this.attr('data-' + dataName);
+    data (dataName: string): string {
+        return this.attr(`data-${dataName}`);
     }
 
-    width(value?: number|string): any {
+    width (value?: number|string): any {
         if (value !== undefined) {
-            this.css('width', value);
+            this.css(`width`, value);
 
             return this;
         }
@@ -376,12 +376,12 @@ export default class TsDom {
             return parseInt(this.getLastNode().innerWidth, 10);
         }
 
-        return parseInt(this.css('width'), 10);
+        return parseInt(this.css(`width`), 10);
     }
 
-    height(value?: number): any {
+    height (value?: number): any {
         if (value !== undefined) {
-            this.css('height', value);
+            this.css(`height`, value);
 
             return this;
         }
@@ -390,28 +390,28 @@ export default class TsDom {
             return parseInt(this.getLastNode().innerHeight, 10);
         }
 
-        return parseInt(this.css('height'), 10);
+        return parseInt(this.css(`height`), 10);
     }
 
-    position() {
+    position () {
         return {
             top: Number(this.getLastNode().getBoundingClientRect().top),
             bottom: Number(this.getLastNode().getBoundingClientRect().bottom),
             left: Number(this.getLastNode().getBoundingClientRect().left),
-            right: Number(this.getLastNode().getBoundingClientRect().right),
+            right: Number(this.getLastNode().getBoundingClientRect().right)
         };
     }
 
-    offset() {
+    offset () {
         return {
             top: Number(this.getLastNode().offsetTop),
             left: Number(this.getLastNode().offsetLeft)
         };
     }
 
-    private static createNode(nodeName: string): Node {
-        if (nodeName[0] === '<' && nodeName[nodeName.length - 1] === ">") {
-            let element = document.createElement('div');
+    private static createNode (nodeName: string): Node {
+        if (nodeName[0] === `<` && nodeName[nodeName.length - 1] === `>`) {
+            const element = document.createElement(`div`);
             element.innerHTML = nodeName;
 
             return element.firstChild;
@@ -420,8 +420,8 @@ export default class TsDom {
         }
     }
 
-    private static isHtml(text: string) {
-        return text[0] === '<' && text[text.length - 1] === ">";
+    private static isHtml (text: string) {
+        return text[0] === `<` && text[text.length - 1] === `>`;
     }
 
     /**
@@ -430,21 +430,21 @@ export default class TsDom {
      * @param {string} propertyName
      * @returns {string}
      */
-    private static convertToJsProperty(propertyName: string): string {
-        propertyName = propertyName.toLowerCase().replace('-', ' ');
+    private static convertToJsProperty (propertyName: string): string {
+        propertyName = propertyName.toLowerCase().replace(`-`, ` `);
         propertyName = propertyName.replace(/(^| )(\w)/g, (x) => {
             return x.toUpperCase();
         });
         propertyName = propertyName.charAt(0).toLowerCase() + propertyName.slice(1);
 
-        return propertyName.replace(' ', '');
+        return propertyName.replace(` `, ``);
     }
 
     /**
      *
      * @returns {any}
      */
-    private getLastNode(): any {
+    private getLastNode (): any {
         return this.nodes[this.nodes.length - 1];
     }
 }

@@ -1,17 +1,17 @@
 import '../scss/themes/light/light-theme.scss';
 import '../scss/themes/dark/dark-theme.scss';
 import '../scss/themes/colored/colored-theme.scss';
-import {IOptions} from './interface/IOptions';
-import {IPosition} from "./interface/IPosition";
-import {PositionFactory} from "./position/PositionFactory";
+import { IOptions } from './interface/IOptions';
+import { IPosition } from "./interface/IPosition";
+import { PositionFactory } from "./position/PositionFactory";
 import * as deepmerge from "deepmerge";
 import TsDom from './model/tsdom';
-import {TopCenterPosition} from "./position/TopCenterPosition";
-import {TopRightPosition} from "./position/TopRightPosition";
-import {TopLeftPosition} from "./position/TopLeftPosition";
-import {BottomCenterPosition} from "./position/BottomCenterPosition";
-import {BottomLeftPosition} from "./position/BottomLeftPosition";
-import {BottomRightPosition} from "./position/BottomRightPosition";
+import { TopCenterPosition } from "./position/TopCenterPosition";
+import { TopRightPosition } from "./position/TopRightPosition";
+import { TopLeftPosition } from "./position/TopLeftPosition";
+import { BottomCenterPosition } from "./position/BottomCenterPosition";
+import { BottomLeftPosition } from "./position/BottomLeftPosition";
+import { BottomRightPosition } from "./position/BottomRightPosition";
 
 class GrowlNotification {
     options: IOptions;
@@ -22,54 +22,54 @@ class GrowlNotification {
     template: string;
     position: IPosition;
 
-    constructor(options: IOptions = {}) {
+    constructor (options: IOptions = {}) {
         this.options = deepmerge.all([GrowlNotification.defaultOptions, GrowlNotification.globalOptions, options]);
         // Disable animation duration if animation close set to 'none'
-        if (!this.options.animation.close || this.options.animation.close == 'none') {
-          this.options.animationDuration = 0;
+        if (!this.options.animation.close || this.options.animation.close == `none`) {
+            this.options.animationDuration = 0;
         }
-        this.notification = TsDom.create('div');
-        this.body = TsDom.select('body');
+        this.notification = TsDom.create(`div`);
+        this.body = TsDom.select(`body`);
         this.template = GrowlNotification.template;
         this.position = PositionFactory.newInstance(this.options.position, this.notification, this.options.margin);
         GrowlNotification.instances.push(this);
     }
 
-    protected static get defaultOptions(): IOptions {
+    protected static get defaultOptions (): IOptions {
         return {
             margin: 20,
-            type: 'default',
-            title: '',
-            description: '',
+            type: `default`,
+            title: ``,
+            description: ``,
             image: {
                 visible: false,
-                customImage: ''
+                customImage: ``
             },
             closeTimeout: 0,
-            closeWith: ['click', 'button'],
+            closeWith: [`click`, `button`],
             animation: {
-                open: 'slide-in',
-                close: 'slide-out'
+                open: `slide-in`,
+                close: `slide-out`
             },
-            animationDuration: .2,
-            position: 'top-right',
+            animationDuration: 0.2,
+            position: `top-right`,
             showBorder: false,
             showButtons: false,
             buttons: {
                 action: {
-                    text: 'Ok',
+                    text: `Ok`,
                     callback: () => {}
                 },
                 cancel: {
-                    text: 'Cancel',
+                    text: `Cancel`,
                     callback: () => {}
                 }
             },
             showProgress: false
-        }
+        };
     }
 
-    static get template(): string {
+    static get template (): string {
         return `<span class="growl-notification__close">
                   <span class="growl-notification__close-icon"></span>
                 </span>
@@ -90,11 +90,11 @@ class GrowlNotification {
         ;
     }
 
-    static notify(options: IOptions = {}) {
-        let newInstance = new GrowlNotification(options).show();
+    static notify (options: IOptions = {}) {
+        const newInstance = new GrowlNotification(options).show();
         let reduceHeight = 0;
-        let removedNotifications: Array<TsDom> = [];
-        let instances = newInstance.position.instances();
+        const removedNotifications: TsDom[] = [];
+        const instances = newInstance.position.instances();
 
         instances.forEach((instance: TsDom) => {
             if (GrowlNotification.hasOverflow(newInstance, reduceHeight)) {
@@ -112,9 +112,9 @@ class GrowlNotification {
         return newInstance;
     }
 
-    protected static hasOverflow(newInstance: GrowlNotification, reduceHeight: number = 0): boolean {
+    protected static hasOverflow (newInstance: GrowlNotification, reduceHeight = 0): boolean {
         let result = false;
-        let windowHeight = TsDom.select(window).height();
+        const windowHeight = TsDom.select(window).height();
         let offset = 0;
 
         if (
@@ -142,15 +142,15 @@ class GrowlNotification {
         return result;
     }
 
-    static closeAll() {
+    static closeAll () {
         GrowlNotification.instances = [];
 
-        TsDom.select('.growl-notification').each((growlNotification: any) => {
+        TsDom.select(`.growl-notification`).each((growlNotification: any) => {
             TsDom.select(growlNotification).remove();
         });
     }
 
-    show() {
+    show () {
         this.addNotification();
         this.initPosition();
         this.bindEvents();
@@ -158,12 +158,12 @@ class GrowlNotification {
         return this;
     }
 
-    close(): void {
-        let self = this;
+    close (): void {
+        const self = this;
         this.notification
-            .removeClass('animation-' + this.options.animation.open)
-            .addClass('animation-' + this.options.animation.close)
-            .addClass('growl-notification--closed')
+            .removeClass(`animation-${this.options.animation.open}`)
+            .addClass(`animation-${this.options.animation.close}`)
+            .addClass(`growl-notification--closed`)
         ;
         setTimeout(() => {
             self.remove();
@@ -171,51 +171,51 @@ class GrowlNotification {
         }, this.options.animationDuration * 1000);
     }
 
-    remove() {
-        let index = GrowlNotification.instances.indexOf(this);
+    remove () {
+        const index = GrowlNotification.instances.indexOf(this);
         GrowlNotification.instances.splice(index, 1);
         this.notification.remove();
 
         return this;
     }
 
-    getContent() {
+    getContent () {
         return this.notification;
     }
 
     /**
     * Add notification to document
     */
-    private addNotification() {
-        let options = this.options;
-        let template = this.template.replace('{{ title }}', options.title);
-        template = template.replace('{{ description }}', options.description);
+    private addNotification () {
+        const options = this.options;
+        let template = this.template.replace(`{{ title }}`, options.title);
+        template = template.replace(`{{ description }}`, options.description);
 
         if (this.options.image.visible) {
             if (this.options.image.customImage) {
-                template = template.replace('{{ image }}', '<div class="growl-notification__image growl-notification__image--custom"><img src="' + this.options.image.customImage + '" alt=""></div>');
+                template = template.replace(`{{ image }}`, `<div class="growl-notification__image growl-notification__image--custom"><img src="${this.options.image.customImage}" alt=""></div>`);
             } else {
-                template = template.replace('{{ image }}', '<div class="growl-notification__image"></div>');
+                template = template.replace(`{{ image }}`, `<div class="growl-notification__image"></div>`);
             }
         } else {
-            template = template.replace('{{ image }}', '');
+            template = template.replace(`{{ image }}`, ``);
         }
 
         this.notification
-            .addClass('growl-notification')
-            .addClass('growl-notification--' + options.type)
-            .addClass('animation-' + options.animation.open)
-            .addClass('position-' + options.position)
+            .addClass(`growl-notification`)
+            .addClass(`growl-notification--${options.type}`)
+            .addClass(`animation-${options.animation.open}`)
+            .addClass(`position-${options.position}`)
         ;
 
-        if (options.image) {
-            this.notification.addClass('growl-notification--image');
+        if (options.image != null) {
+            this.notification.addClass(`growl-notification--image`);
         }
 
         this.notification.html(template);
 
         if (!options.title) {
-            this.notification.find('.growl-notification__title').remove();
+            this.notification.find(`.growl-notification__title`).remove();
         }
 
         if (options.width) {
@@ -223,21 +223,21 @@ class GrowlNotification {
         }
 
         if (options.zIndex) {
-            this.notification.css('z-index', options.zIndex);
+            this.notification.css(`z-index`, options.zIndex);
         }
 
         if (options.showProgress && (options.closeTimeout > 0)) {
             this.notification
-                .find('.growl-notification__progress')
-                .addClass('is-visible')
+                .find(`.growl-notification__progress`)
+                .addClass(`is-visible`)
             ;
-            this.notification.addClass('has-progress');
+            this.notification.addClass(`has-progress`);
         }
 
         if (options.showButtons) {
-            this.notification.find('.growl-notification__buttons').addClass('is-visible');
-            this.notification.find('.growl-notification__button--action').text(options.buttons.action.text);
-            this.notification.find('.growl-notification__button--cancel').text(options.buttons.cancel.text);
+            this.notification.find(`.growl-notification__buttons`).addClass(`is-visible`);
+            this.notification.find(`.growl-notification__button--action`).text(options.buttons.action.text);
+            this.notification.find(`.growl-notification__button--cancel`).text(options.buttons.cancel.text);
         }
 
         this.body.append(this.notification);
@@ -250,52 +250,52 @@ class GrowlNotification {
     /**
     * Calculate and set notification positions
     */
-    private initPosition() {
+    private initPosition () {
         this.position.calculate();
     }
 
-    private calculateProgress() {
-        let intervalAmount = Math.ceil(Number(this.options.closeTimeout) / 100),
-            width = 1,
-            interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                } else {
-                    this.notification
-                        .find('.growl-notification__progress-bar')
-                        .css('width', width + '%')
-                    ;
-                    width++;
-                }
-            }, intervalAmount)
+    private calculateProgress () {
+        const intervalAmount = Math.ceil(Number(this.options.closeTimeout) / 100);
+        let width = 1;
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+            } else {
+                this.notification
+                    .find(`.growl-notification__progress-bar`)
+                    .css(`width`, `${width}%`)
+                ;
+                width++;
+            }
+        }, intervalAmount)
         ;
     }
 
-    private bindEvents(): void {
-        let self = this;
+    private bindEvents (): void {
+        const self = this;
 
-        if (this.options.closeWith.indexOf('click') > -1) {
-          this.notification
-              .addClass('growl-notification--close-on-click')
-              .on('click', () => self.close())
-          ;
-        } else if (this.options.closeWith.indexOf('button') > -1) {
-          let closeBtn = this.notification.find('.growl-notification__close');
-          closeBtn.on('click', () => self.close());
+        if (this.options.closeWith.includes(`click`)) {
+            this.notification
+                .addClass(`growl-notification--close-on-click`)
+                .on(`click`, () => self.close())
+            ;
+        } else if (this.options.closeWith.includes(`button`)) {
+            const closeBtn = this.notification.find(`.growl-notification__close`);
+            closeBtn.on(`click`, () => self.close());
         }
 
         if (this.options.showButtons) {
-            let actionBtn = this.notification.find('.growl-notification__button--action');
+            const actionBtn = this.notification.find(`.growl-notification__button--action`);
 
-            actionBtn.on('click', (e: MouseEvent) => {
+            actionBtn.on(`click`, (e: MouseEvent) => {
                 self.options.buttons.action.callback.apply(self);
                 self.close();
                 e.stopPropagation();
             });
 
-            let cancelBtn = this.notification.find('.growl-notification__button--cancel');
+            const cancelBtn = this.notification.find(`.growl-notification__button--cancel`);
 
-            cancelBtn.on('click', (e: MouseEvent) => {
+            cancelBtn.on(`click`, (e: MouseEvent) => {
                 self.options.buttons.cancel.callback.apply(self);
                 self.close();
                 e.stopPropagation();
@@ -307,7 +307,7 @@ class GrowlNotification {
         }
     }
 
-    public static setGlobalOptions(options: IOptions): void {
+    public static setGlobalOptions (options: IOptions): void {
         GrowlNotification.globalOptions = options;
     }
 }

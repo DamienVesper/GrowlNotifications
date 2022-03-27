@@ -1,20 +1,13 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "strictNullChecks": false,
-    "strictFunctionTypes": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "target": "es5",
-    "lib": [
-      "ES5",
-      "ES2015",
-      "DOM",
-      "ScriptHost"
-    ]
+      "target": "ES6",
+      "module": "commonjs",
+      "moduleResolution": "node",        
+      "outDir": "./dist",
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "strictNullChecks": true,
+      "skipLibCheck": true
   },
-  "module": "umd",
-  "moduleResolution": "node",
-  "typeRoots": [ "./node_modules/@types/" ],
-  "allowSyntheticDefaultImports": true
+  "include": ["./**/*"]
 }

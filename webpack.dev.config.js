@@ -13,10 +13,10 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'dist'),
             libraryTarget: 'umd',
             umdNamedDefine: true,
-            library: "GrowlNotification"
+            library: 'GrowlNotification'
         },
         resolve: {
-            extensions:['.ts', '.js'],
+            extensions: ['.ts', '.js'],
             alias: {
                 deepmerge$: path.resolve(__dirname, 'node_modules/deepmerge/dist/umd.js'),
             }
@@ -53,11 +53,11 @@ module.exports = (env, argv) => {
                 inject: 'head'
             }),
             new CopyWebpackPlugin([{
-                from:'src/img',
-                to:'img' // dist/img
+                from: `src/img`,
+                to: `img` // dist/img
             }
             ]),
             new webpack.HotModuleReplacementPlugin()
         ]
-    }
-};
+    };
+}

@@ -4,12 +4,12 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const lightTheme = new ExtractTextWebpackPlugin("light-theme.min.css");
-const darkTheme = new ExtractTextWebpackPlugin("dark-theme.min.css");
-const coloredTheme = new ExtractTextWebpackPlugin("colored-theme.min.css");
+const lightTheme = new ExtractTextWebpackPlugin('light-theme.min.css');
+const darkTheme = new ExtractTextWebpackPlugin('dark-theme.min.css');
+const coloredTheme = new ExtractTextWebpackPlugin('colored-theme.min.css');
 
 module.exports = (env, argv) => {
     return {
@@ -20,10 +20,10 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'dist'),
             libraryTarget: 'umd',
             umdNamedDefine: true,
-            library: "GrowlNotification"
+            library: 'GrowlNotification'
         },
         resolve: {
-            extensions:['.ts', '.js'],
+            extensions: ['.ts', '.js'],
             alias: {
                 deepmerge$: path.resolve(__dirname, 'node_modules/deepmerge/dist/umd.js'),
             }
@@ -37,25 +37,25 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /light-theme\.scss$/,
-                    include:[path.resolve(__dirname, "./src/scss")],
+                    include: [path.resolve(__dirname, './src/scss')],
                     use: lightTheme.extract({
-                        fallback: "style-loader",
+                        fallback: 'style-loader',
                         use: ['css-loader', 'sass-loader']
                     })
                 },
                 {
                     test: /dark-theme\.scss$/,
-                    include:[path.resolve(__dirname, "./src/scss")],
+                    include: [path.resolve(__dirname, './src/scss')],
                     use: darkTheme.extract({
-                        fallback: "style-loader",
+                        fallback: 'style-loader',
                         use: ['css-loader', 'sass-loader']
                     })
                 },
                 {
                     test: /colored-theme\.scss$/,
-                    include:[path.resolve(__dirname, "./src/scss")],
+                    include: [path.resolve(__dirname, './src/scss')],
                     use: coloredTheme.extract({
-                        fallback: "style-loader",
+                        fallback: 'style-loader',
                         use: ['css-loader', 'sass-loader']
                     })
                 }
@@ -74,8 +74,8 @@ module.exports = (env, argv) => {
                 inject: 'head'
             }),
             new CopyWebpackPlugin([{
-                from:'src/img',
-                to:'img' // dist/img
+                from: `src/img`,
+                to: `img` // dist/img
             }
             ]),
             lightTheme,
@@ -83,5 +83,5 @@ module.exports = (env, argv) => {
             coloredTheme,
             new OptimizeCSSAssetsPlugin({})
         ]
-    }
-};
+    };
+}
