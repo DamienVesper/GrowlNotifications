@@ -3,6 +3,7 @@ import { DefaultOpts } from './Defaults';
 
 class Notification {
     options: Options;
+    position: TopLeftPosition | TopCenterPosition | TopRightPosition | BottomLeftPosition | BottomCenterPosition | BottomRightPosition;
 
     element: HTMLDivElement;
 
@@ -12,11 +13,22 @@ class Notification {
     }
 
     show = (): void => {
-        document.body.append(this.element);
+        this.addNotification();
+        this.initPosition();
+        this.bindEvents();
     };
 
     hide = (): void => {
+        this.element.classList.remove(`animation-${this.options.animation?.open ?? `slide-in`}`);
+        this.element.classList.add(
+            `animation-${this.options.animation?.close ?? `slide-out`}`,
+            `growl-notification--closed`
+        );
+    };
+
+    remove = (): void => {
         this.element.remove();
+        this.position.calculate();
     };
 
     private readonly addNotification = (): void => {
@@ -78,7 +90,7 @@ class Notification {
         if (this.options.showProgress === true && (this.options.closeTimeout !== undefined && this.options.closeTimeout > 0)) this.calculateProgress();
     };
 
-    getTemplate = (): string => {
+    private readonly getTemplate = (): string => {
         return `
             <span class="growl-notification__close" style="{{ width }}{{ height }}{{ zIndex }}">
                 <span class="growl-notification__close-icon"></span>
@@ -98,6 +110,59 @@ class Notification {
                 <span class="growl-notification__button growl-notification__button--cancel">{{ cancelBtnText }}</span>
             </div>
       `;
+    };
+
+    private readonly calculateProgress = (): void => {
+        const intervalAmount = Math.ceil(Number(this.options.closeTimeout) / 100);
+
+        let width = 1;
+        const interval = setInterval(() => {
+            if (width >= 100) clearInterval(interval);
+            else {
+                // this.element
+                //     .find(`.growl-notification__progress-bar`)
+                //     .css(`width`, `${width}%`);
+                width++;
+            }
+        }, intervalAmount);
+    };
+
+    private readonly bindEvents = (): void => {
+        if ((this.options.closeWith?.includes(`click`)) ?? false) {
+            this.element.classList.add(`growl-notification--close-on-clock`);
+            this.element.addEventListener(`click`, () => this.hide());
+        }
+
+        // else if ((this.options.closeWith?.includes(`button`)) ?? false) {
+        //     const closeBtn = this.notification.find(`.growl-notification__close`);
+        //     closeBtn.on(`click`, () => self.close());
+        // }
+
+        // if (this.options.showButtons) {
+        //     const actionBtn = this.notification.find(`.growl-notification__button--action`);
+
+        //     actionBtn.on(`click`, (e: MouseEvent) => {
+        //         self.options.buttons.action.callback.apply(self);
+        //         self.close();
+        //         e.stopPropagation();
+        //     });
+
+        //     const cancelBtn = this.notification.find(`.growl-notification__button--cancel`);
+
+        //     cancelBtn.on(`click`, (e: MouseEvent) => {
+        //         self.options.buttons.cancel.callback.apply(self);
+        //         self.close();
+        //         e.stopPropagation();
+        //     });
+        // }
+
+        // if (this.options.closeTimeout && (this.options.closeTimeout > 0)) {
+        //     setTimeout(() => self.close(), this.options.closeTimeout);
+        // }
+    };
+
+    private readonly initPosition = (): void => {
+        this.position.calculate();
     };
 }
 

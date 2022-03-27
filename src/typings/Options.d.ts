@@ -24,7 +24,7 @@ interface Options {
         close: string
     }
 
-    closeTimeout?: boolean | number
+    closeTimeout?: number
     closeWith?: string[]
 
     showBorder?: boolean
