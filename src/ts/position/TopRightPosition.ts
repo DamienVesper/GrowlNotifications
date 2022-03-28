@@ -7,7 +7,7 @@ export class TopRightPosition implements IPosition {
     constructor(private notification: TsDom, private margin: number) { }
 
     calculate(): void {
-        let offset: number = this.margin,
+        let offset: number = 315,
             notifications = TsDom.select('.growl-notification.position-' + TopRightPosition.position)
         ;
 
