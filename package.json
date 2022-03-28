@@ -4,9 +4,8 @@
 	"description": "",
 	"private": false,
 	"scripts": {
-		"dev": "webpack-dev-server --mode=development --config webpack.dev.config.js",
-		"build": "webpack --mode=production --config webpack.prod.config.js",
-		"build-source": "webpack --mode=production --config webpack.prod-source.config.js",
+		"build": "webpack --config ./webpack/webpack.prod.ts",
+		"dev": "webpack serve --config ./webpack/webpack.dev.ts",
 		"dev:lint": "eslint . --fix --ext .js"
 	},
 	"author": "DamienVesper",

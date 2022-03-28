@@ -1,8 +1,6 @@
 import merge from 'webpack-merge';
 import common from './webpack.common';
 
-import Webpack from 'webpack';
-
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
@@ -24,22 +22,12 @@ const config = merge(common, {
 
     output: {
         path: path.resolve(__dirname, `../dist/libs`),
-        filename: `static/js/[name].[contenthash:8].js`,
-        chunkFilename: `static/js/[name].[contenthash:8].chunk.js`,
-        libraryTarget: `module`,
-        module: true
+        filename: `growl-notification.min.js`,
+        libraryTarget: `umd`,
+        clean: true
     },
 
     optimization: {
-        splitChunks: {
-            chunks: `all`,
-            name: false
-        },
-
-        runtimeChunk: {
-            name: (entrypoint: Webpack.RuntimeModule): string => `runtime-${entrypoint.name}`
-        },
-
         minimizer: [
             `...`,
             new CSSMinimizerPlugin({
@@ -53,20 +41,17 @@ const config = merge(common, {
     plugins: [
         new HTMLWebpackPlugin({
             inject: true,
-            template: path.resolve(__dirname, `../public/index.html`),
-            favicon: `./public/assets/img/logos/favicon.png`,
-
             minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true,
-                useShortDoctype: true,
-                removeEmptyAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                keepClosingSlash: true,
-                minifyJS: true,
-                minifyCSS: true,
-                minifyURLs: true
+                // removeComments: true,
+                // collapseWhitespace: true,
+                // removeRedundantAttributes: true,
+                // useShortDoctype: true,
+                // removeEmptyAttributes: true,
+                // removeStyleLinkTypeAttributes: true,
+                // keepClosingSlash: true,
+                // minifyJS: true,
+                // minifyCSS: true,
+                // minifyURLs: true
             }
         }),
         new MiniCSSExtractPlugin()
