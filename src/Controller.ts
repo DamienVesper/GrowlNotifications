@@ -5,6 +5,10 @@ import Options from './typings/Options';
 class GrowlNotificationController {
     instances: Notification[];
 
+    constructor () {
+        this.instances = [];
+    }
+
     notify = (options: Options): void => {
         const notification = new Notification(options);
         this.instances.push(notification);
