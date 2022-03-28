@@ -1,9 +1,16 @@
 import Options from './typings/Options';
 import { DefaultOpts } from './Defaults';
 
+import TopLeft from './positions/TopLeft';
+import TopCenter from './positions/TopCenter';
+import TopRight from './positions/TopRight';
+import BottomLeft from './positions/BottomLeft';
+import BottomCenter from './positions/BottomCenter';
+import BottomRight from './positions/BottomRight';
+
 class Notification {
     options: Options;
-    position: TopLeftPosition | TopCenterPosition | TopRightPosition | BottomLeftPosition | BottomCenterPosition | BottomRightPosition;
+    position: TopLeft | TopCenter | TopRight | BottomLeft | BottomCenter | BottomRight;
 
     element: HTMLDivElement;
 
