@@ -1,0 +1,10 @@
+&.animation-fade {
+  &-in {
+    opacity: 0;
+    animation: fade-in $growl-notification-animation-duration forwards;
+  }
+
+  &-out {
+    animation: fade-out $growl-notification-animation-duration forwards;
+  }
+}

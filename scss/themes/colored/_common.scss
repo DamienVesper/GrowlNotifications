@@ -1,0 +1,247 @@
+/** BEGIN: growl notifications */
+.growl-notification {
+  position: fixed;
+  width: $growl-notification-width;
+  min-height: $growl-notification-min-height;
+  border-radius: $growl-notification-border-radius;
+  box-shadow: $growl-notification-box-shadow;
+  background: $growl-notification-bg-color;
+  z-index: $growl-notification-zindex;
+
+  &:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    content: '';
+    width: 4px;
+    border-radius: $growl-notification-border-radius 0 0 $growl-notification-border-radius;
+  }
+
+  &__progress {
+    display: none;
+    height: 4px;
+    border-radius: $growl-notification-border-radius $growl-notification-border-radius 0 0;
+
+    &.is-visible {
+      display: flex;
+    }
+
+    &-bar {
+      border-radius: $growl-notification-border-radius $growl-notification-border-radius 0 0;
+      width: 0;
+      height: 4px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    padding: 13px 25px;
+    min-height: 56px;
+  }
+
+  &__buttons {
+    display: none;
+    border-top: $growl-notification-button-border-width solid $growl-notification-button-border-color;
+
+    &.is-visible {
+      display: flex;
+    }
+  }
+
+  &__button {
+    display: flex;
+    flex-grow: 1;
+    min-width: 50%;
+    text-align: center;
+    min-height: 39px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: $growl-notification-button-ok-color;
+    font-weight: $growl-notification-font-weight-bold;
+
+    &:hover {
+      text-decoration: none;
+      color: $growl-notification-button-ok-color;
+      background: $growl-notification-button-hover-bg-color;
+    }
+
+    &--cancel {
+      color: $growl-notification-button-cancel-color;
+
+      &:hover {
+        color: $growl-notification-button-cancel-color;
+      }
+    }
+  }
+
+  &__button + &__button {
+    border-left: $growl-notification-button-border-width solid $growl-notification-button-border-color;
+  }
+
+  &__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 12px;
+    line-height: 12px;
+    transition: color .1s;
+    cursor: pointer;
+
+    &-icon {
+      background-repeat: no-repeat;
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      background-size: 100%;
+      background-image: url($growl-notification-close-icon);
+      opacity: $growl-notification-close-opacity;
+
+      &:hover {
+        opacity: $growl-notification-close-hover-opacity;
+      }
+    }
+  }
+
+  &--closed {
+    z-index: 1055;
+  }
+
+  &__title {
+    font-size: 18px;
+    color: $growl-notification-title-color;
+    margin-top: -2px;
+    font-weight: $growl-notification-font-weight-bold;
+  }
+
+  &__desc {
+    color: $growl-notification-desc-color;
+  }
+
+  &__title + &__desc {
+    color: $growl-notification-desc-after-title-color;
+  }
+
+  &--close-on-click {
+    cursor: pointer;
+  }
+
+  &--default {
+    background: $growl-notification-default-bg-color;
+
+    &:before {
+      background: $growl-notification-color-default;
+    }
+  }
+
+  &--default &__title {
+    color: #000;
+  }
+
+  &--default &__desc {
+    color: #000;
+  }
+
+  &--default &__title + &--default &__desc {
+    color: rgba(#000, .8);
+  }
+
+  &--default &__button {
+    color: #000;
+
+    &:hover {
+      color: #000;
+    }
+
+    &--cancel {
+      color: #ff0048;
+
+      &:hover {
+        color: #ff0048;
+      }
+    }
+  }
+
+  &--default &__close-icon {
+    background-image: url($growl-notification-close-icon-light);
+  }
+
+  &--info {
+    background: #00b1fe;
+
+    &:before {
+      background: rgba(#000, .2);
+    }
+  }
+
+  &--success {
+    background: #08c27a;
+
+    &:before {
+      background: rgba(#000, .2);
+    }
+  }
+
+  &--warning {
+    background: #ffe100;
+
+    &:before {
+      background: #ff5e3a;
+    }
+  }
+
+  &--warning &__title {
+    color: #000;
+  }
+
+  &--warning &__desc {
+    color: #000;
+  }
+
+  &--warning &__title + &--default &__desc {
+    color: rgba(#000, .8);
+  }
+
+  &--warning &__button {
+    color: #000;
+
+    &:hover {
+      color: #000;
+    }
+
+    &--cancel {
+      color: rgba(#000, .6);
+
+      &:hover {
+        color: rgba(#000, .6);
+      }
+    }
+  }
+
+  &--warning &__close-icon {
+    background-image: url($growl-notification-close-icon-light);
+  }
+
+  &--error,
+  &--danger {
+    background: #ff5e3a;
+
+    &:before {
+      background: rgba(#000, .2);
+    }
+  }
+
+  &__image {
+    opacity: .8;
+    background-size: 85%;
+  }
+
+  @import "../../_partials/images";
+  @import "../../_partials/positions";
+  @import "../../_partials/animations";
+}
+
+@import "../../_partials/animations-keyframes";
+/** END: growl notifications */
