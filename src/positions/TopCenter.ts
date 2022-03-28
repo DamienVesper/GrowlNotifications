@@ -21,7 +21,7 @@ class TopCenter {
     calculate = (): void => {
         let offset = this.margin + this.offset.y;
 
-        const notifications = document.querySelectorAll(`..growl-notification.position-${this.position}`);
+        const notifications = document.querySelectorAll(`.growl-notification.position-${this.position}`);
 
         notifications.forEach((element: HTMLDivElement) => {
             element.style.top = offset.toString();
