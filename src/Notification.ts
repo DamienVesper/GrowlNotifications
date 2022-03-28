@@ -17,6 +17,8 @@ class Notification {
     constructor (options: Options) {
         this.options = Object.assign(DefaultOpts, options);
         this.element = document.createElement(`div`);
+
+        this.show();
     }
 
     show = (): void => {
