@@ -18,6 +18,27 @@ class Notification {
         this.options = Object.assign(DefaultOpts, options);
         this.element = document.createElement(`div`);
 
+        switch (this.options.position) {
+            case `top-left`:
+                this.position = new TopLeft({ margin: this.options.margin, offset: this.options.offset, element: this.element });
+                break;
+            case `top-center`:
+                this.position = new TopCenter({ margin: this.options.margin, offset: this.options.offset, element: this.element });
+                break;
+            case `top-right`:
+                this.position = new TopRight({ margin: this.options.margin, offset: this.options.offset, element: this.element });
+                break;
+            case `bottom-left`:
+                this.position = new BottomLeft({ margin: this.options.margin, offset: this.options.offset, element: this.element });
+                break;
+            case `bottom-center`:
+                this.position = new BottomCenter({ margin: this.options.margin, offset: this.options.offset, element: this.element });
+                break;
+            case `bottom-right`:
+                this.position = new BottomRight({ margin: this.options.margin, offset: this.options.offset, element: this.element });
+                break;
+        }
+
         this.show();
     }
 

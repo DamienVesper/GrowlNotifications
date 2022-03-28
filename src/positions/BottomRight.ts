@@ -1,6 +1,6 @@
 import PositionOpts from '../typings/PositionOpts';
 
-class TopRight {
+class BottomRight {
     options: PositionOpts;
     position: string;
 
@@ -32,4 +32,4 @@ class TopRight {
     };
 }
 
-export default TopRight;
+export default BottomRight;
